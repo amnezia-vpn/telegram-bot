@@ -8,6 +8,7 @@ class UserAdmin(admin.ModelAdmin):
     list_display = ("username", "key", "create_date")
     readonly_fields = ("id", "username", "key")
     search_fields = ("username",)
+    date_hierarchy = "create_date"
 
 
 @admin.register(Key)
