@@ -18,10 +18,10 @@ When developing locally, we are recommending to use:
 
 ## Getting started
 
-First of all, you have to create `.env` file and fill in all the secrets and environment variables (see `.env.template`).
+First of all, you have to create `.env` (see `.env.template`) file and fill in all the secrets and environment variables.
 
 - Use [@BotFather](https://t.me/BotFather) to obtain `TELEGRAM_BOT_TOKEN`.
-- Use `ngrok` to expose your local server through `HTTPS` to fill in (`TELEGRAM_WEBHOOK_URI`).
+- Use `ngrok` to expose your local server through `HTTPS` to fill in `TELEGRAM_WEBHOOK_URI`.
 
 Next, you have to install all the dependencies:
 
