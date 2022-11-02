@@ -22,6 +22,7 @@ _ENV = environ["DJANGO_ENV"]
 base_settings = [  # pylint: disable=invalid-name
     "components/common.py",
     "components/telegram.py",
+    "components/logging.py",
     # You can even use glob:
     # 'components/*.py'
     # Select the right env:
