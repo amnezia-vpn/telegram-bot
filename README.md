@@ -41,3 +41,5 @@ Now you can set webhook and run the bot:
 poetry run python manage.py set_webhook
 poetry run python manage.py runserver
 ```
+
+Additionally, you can use `poetry run python manage.py createsuperuser` to create a superuser with access to the admin panel.
