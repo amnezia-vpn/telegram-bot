@@ -4,9 +4,9 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": (
-                    "%(asctime)s [%(process)d] [%(levelname)s] "
-                    + "pathname=%(pathname)s lineno=%(lineno)s "
-                    + "funcname=%(funcName)s %(message)s"
+                "%(asctime)s [%(process)d] [%(levelname)s] "
+                + "pathname=%(pathname)s lineno=%(lineno)s "
+                + "funcname=%(funcName)s %(message)s"
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
