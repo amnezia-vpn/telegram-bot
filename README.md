@@ -20,7 +20,7 @@ When developing locally, we are recommending to use:
 
 First of all, you have to create `.env` (see `.env.template`) file and fill in all the secrets and environment variables.
 
-- Use [@BotFather](https://t.me/BotFather) to obtain `TELEGRAM_BOT_TOKEN`.
+- Use [`@BotFather`](https://t.me/BotFather) to obtain a `TELEGRAM_BOT_TOKEN`.
 - Use `ngrok` to expose your local server through `HTTPS` to fill in `TELEGRAM_WEBHOOK_URI`.
 
 Next, you have to install all the dependencies:
@@ -42,4 +42,7 @@ poetry run python manage.py set_webhook
 poetry run python manage.py runserver
 ```
 
-Additionally, you can use `poetry run python manage.py createsuperuser` to create a superuser with access to the admin panel.
+Additionally, you may want to create a superuser with access to the admin panel:
+```bash
+poetry run python manage.py createsuperuser
+```
