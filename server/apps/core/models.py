@@ -73,4 +73,4 @@ class User(TimestampMixin):
 
     def get_actual_wireguard_key(self):
         """Get an actual WireGuard key from Vault server."""
-        return "key-obtain-from-vault-server"
+        raise NotImplementedError
