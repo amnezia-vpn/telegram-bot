@@ -11,8 +11,9 @@ To change settings file:
 """
 from os import environ
 
-from server.settings.components import config
 from split_settings.tools import include
+
+from server.settings.components import config
 
 environ.setdefault("DJANGO_ENV", "development")
 

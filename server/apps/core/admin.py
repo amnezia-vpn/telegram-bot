@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from server.apps.core.models import Key, User
 
 

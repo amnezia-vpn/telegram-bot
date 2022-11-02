@@ -1,3 +1,5 @@
+from telebot import TeleBot
+
 from server.apps.core.messages import (
     EXHAUSTED_FREE_KEYS_MESSAGE,
     KEY_GENERATED_MESSAGE,
@@ -6,7 +8,6 @@ from server.apps.core.messages import (
 )
 from server.apps.core.models import Key, User
 from server.settings.components.telegram import TELEGRAM_BOT_TOKEN
-from telebot import TeleBot
 
 bot = TeleBot(TELEGRAM_BOT_TOKEN)
 

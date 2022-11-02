@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+
 from server.apps.core.bot import bot
 from server.settings.components.telegram import TELEGRAM_WEBHOOK_URI
 
