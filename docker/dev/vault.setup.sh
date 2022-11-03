@@ -2,7 +2,9 @@
 
 set -eux
 
-export VAULT_URL='http://localhost:8200/'
+# test -f /vault_configured && exit
+
+export VAULT_ADDR='http://localhost:8200/'
 export VAULT_TOKEN="$VAULT_DEV_ROOT_TOKEN_ID"
 
 sleep 3
@@ -23,4 +25,4 @@ for I in `seq "$VAULT_WG_KEYS_COUNT"` ; do
     vault kv put -mount=vpn "keys/$I" private="$(wg genkey)"
 done
 
-touch /tmp/configured
+touch /vault_configured
