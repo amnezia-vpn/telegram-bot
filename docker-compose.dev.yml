@@ -13,6 +13,8 @@ services:
       - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_ROOT_TOKEN-mysecretvaultroottoken}
       - VAULT_DEV_APP_TOKEN_ID=${VAULT_TOKEN-mysecretvaultbottoken}
       - VAULT_WG_KEYS_COUNT=${VAULT_WG_KEYS_COUNT-10}
+    healthcheck:
+      test: "env VAULT_TOKEN=${VAULT_TOKEN-mysecretvaultbottoken} VAULT_ADDR=http://localhost:8200/ vault kv list vpn"
   db:
     hostname: db
     image: postgres:13
@@ -46,6 +48,8 @@ services:
       - vault
     depends_on:
       db:
+        condition: service_healthy
+      vault:
         condition: service_healthy
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
