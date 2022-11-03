@@ -1,0 +1,51 @@
+---
+services:
+  vault:
+    # image: vault:1.11.0
+    build:
+      context: .
+      dockerfile: ./docker/dev/vault.Dockerfile
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - 8200:8200/tcp
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_ROOT_TOKEN-mysecretvaultroottoken}
+      - VAULT_DEV_APP_TOKEN_ID=${VAULT_TOKEN-mysecretvaultbottoken}
+      - VAULT_WG_KEYS_COUNT=${VAULT_WG_KEYS_COUNT-10}
+  db:
+    image: postgres:13
+    ports:
+      - 5432:5432/tcp
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - /var/lib/postgresql/data
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080/tcp
+    links:
+      - db
+  bot:
+    build:
+      context: .
+      dockerfile: ./docker/dev/bot.Dockerfile
+    ports:
+      - 8000:8000/tcp
+    links:
+      - db
+      - vault
+    environment:
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_WEBHOOK_URI=${TELEGRAM_WEBHOOK_URI}
+      - VAULT_ADDR="http://vault:8200/"
+      - VAULT_TOKEN=${VAULT_TOKEN-mysecretvaultbottoken}

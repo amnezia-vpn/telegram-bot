@@ -46,3 +46,27 @@ Additionally, you may want to create a superuser with access to the admin panel:
 ```bash
 poetry run python manage.py createsuperuser
 ```
+
+## Docker-compose dev environment
+
+Fill `.env` file and run simple dev environment with `docker-compose.dev.yml` file:
+```
+docker-compose -f docker-compose.dev.yml up
+```
+
+DB with credentials:
+```
+Host: db:5432
+User: user
+Password: password
+DB: amn-ru
+```
+
+Vault credentials:
+```
+Root token: mysecretvaultroottoken
+Application token: mysecretvaultbottoken
+```
+You can change default tokens with `VAULT_ROOT_TOKEN` and `VAULT_TOKEN` accordingly.
+
+By default, 10 Wireguard keys are created in Vault. You can change number of keys with `VAULT_WG_KEYS_COUNT`. 
