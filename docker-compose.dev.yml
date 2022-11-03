@@ -14,6 +14,7 @@ services:
       - VAULT_DEV_APP_TOKEN_ID=${VAULT_TOKEN-mysecretvaultbottoken}
       - VAULT_WG_KEYS_COUNT=${VAULT_WG_KEYS_COUNT-10}
   db:
+    hostname: db
     image: postgres:13
     ports:
       - 5432:5432/tcp
@@ -23,6 +24,8 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
       - /var/lib/postgresql/data
+    healthcheck:
+      test: "pg_isready -q -U postgres"
   adminer:
     image: adminer
     ports:
@@ -32,6 +35,7 @@ services:
     profiles:
       - adminer
   bot:
+    hostname: bot
     build:
       context: .
       dockerfile: ./docker/dev/bot.Dockerfile
@@ -40,6 +44,9 @@ services:
     links:
       - db
       - vault
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DB_NAME=${DB_NAME}
