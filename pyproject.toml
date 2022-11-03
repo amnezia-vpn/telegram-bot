@@ -14,6 +14,7 @@ psycopg2-binary = "^2.9.5"
 bcrypt = "^4.0.1"
 ipython = "^8.6.0"
 pytelegrambotapi = "^4.7.1"
+hvac = "^1.0.2"
 
 
 [tool.poetry.group.dev.dependencies]
