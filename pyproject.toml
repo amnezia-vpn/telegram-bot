@@ -15,6 +15,7 @@ bcrypt = "^4.0.1"
 ipython = "^8.6.0"
 pytelegrambotapi = "^4.7.1"
 hvac = "^1.0.2"
+gunicorn = "^20.1.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -29,4 +30,3 @@ build-backend = "poetry.core.masonry.api"
 profile = "black"
 multi_line_output = 3
 include_trailing_comma = true
-#known_third_party = ["telebot"]
