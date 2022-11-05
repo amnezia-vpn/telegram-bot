@@ -1,5 +1,8 @@
 from django.db import models
 
+from server.apps.core.logic.vault import get_vault_client
+from server.settings.components.vault import VAULT_MOUNT_POINT, VAULT_SECRETS_PATH
+
 
 class TimestampMixin(models.Model):
     """Abstract model to automatically managing timestamps."""
@@ -26,6 +29,18 @@ class Key(TimestampMixin):
 
     def __str__(self):
         return f"Key <{self.id}>"
+
+    def inquire_actual_wireguard_key(self):
+        """Inquire actual WireGuard key from Vault."""
+        try:
+
+            client = get_vault_client()
+            response = client.secrets.kv.v2.read_secret(
+                f"{VAULT_SECRETS_PATH}/{self.id}", VAULT_MOUNT_POINT
+            )
+            return response["data"]["data"]["private"]
+        except KeyError:
+            return None
 
     class Meta:
         db_table = "key"
@@ -71,6 +86,6 @@ class User(TimestampMixin):
 
         return True
 
-    def get_actual_wireguard_key(self):
+    def get_actual_wireguard_config(self):
         """Get an actual WireGuard key from Vault server."""
-        raise NotImplementedError
+        return self.key.inquire_actual_wireguard_key()

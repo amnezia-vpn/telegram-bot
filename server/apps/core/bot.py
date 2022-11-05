@@ -32,6 +32,7 @@ def start_message(message):
 
         user.assign_key()
         bot.send_message(chat_id, UNREGISTERED_USER_MESSAGE)
+
         return bot.send_message(
             chat_id,
             KEY_GENERATED_MESSAGE.format(
