@@ -1,3 +1,8 @@
+docker-compose.*
+.dockerignore
+.git*
+
+# .gitignore
 #### macos ####
 *.DS_Store
 .AppleDouble

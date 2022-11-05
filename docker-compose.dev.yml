@@ -21,9 +21,9 @@ services:
     ports:
       - 5432:5432/tcp
     environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME-amnru}
+      - POSTGRES_USER=${DB_USER-user}
+      - POSTGRES_PASSWORD=${DB_PASSWORD-password}
     volumes:
       - /var/lib/postgresql/data
     healthcheck:
@@ -53,12 +53,12 @@ services:
         condition: service_healthy
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME-amnru}
+      - DB_USER=${DB_USER-user}
+      - DB_PASSWORD=${DB_PASSWORD-password}
+      - DB_HOST=db
+      - DB_PORT=5432
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_WEBHOOK_URI=${TELEGRAM_WEBHOOK_URI}
-      - VAULT_ADDR="http://vault:8200/"
+      - VAULT_ADDR=http://vault:8200/
       - VAULT_TOKEN=${VAULT_TOKEN-mysecretvaultbottoken}
