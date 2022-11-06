@@ -13,12 +13,13 @@ ENV PIP_NO_CACHE_DIR=off \
 
 RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /bot
-COPY . .
-RUN chmod 755 docker/dev/bot.entrypoint.sh
+COPY pyproject.toml poetry.lock* .
 
 # No need to create a virtualenv, the env is isolated anyway
 RUN poetry config virtualenvs.create false  \
     && poetry install --no-interaction --no-ansi
+
+COPY . .
 
 ENTRYPOINT docker/dev/bot.entrypoint.sh
 
