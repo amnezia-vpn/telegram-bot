@@ -1,6 +1,9 @@
+import io
+
 from django.db import models
 
 from server.apps.core.logic.vault import get_vault_client
+from server.apps.core.logic.wireguard import create_wireguard_config
 from server.settings.components.vault import VAULT_MOUNT_POINT, VAULT_SECRETS_PATH
 
 
@@ -30,7 +33,7 @@ class Key(TimestampMixin):
     def __str__(self):
         return f"Key <{self.id}>"
 
-    def inquire_actual_wireguard_key(self):
+    def get_wireguard_private_key(self):
         """Inquire actual WireGuard key from Vault."""
         try:
 
@@ -40,7 +43,7 @@ class Key(TimestampMixin):
             )
             return response["data"]["data"]["private"]
         except KeyError:
-            return None
+            raise ValueError("Key not found in Vault")
 
     class Meta:
         db_table = "key"
@@ -76,6 +79,10 @@ class User(TimestampMixin):
         return f"User <{self.id}>"
 
     def assign_key(self):
+        """
+        Assign any unasigned key to the user.
+        :return:
+        """
         key = Key.objects.filter(user__isnull=True).first()
 
         if not key:
@@ -86,6 +93,15 @@ class User(TimestampMixin):
 
         return True
 
-    def get_actual_wireguard_config(self):
+    def get_wireguard_config(self) -> str:
         """Get an actual WireGuard key from Vault server."""
-        return self.key.inquire_actual_wireguard_key()
+        private_key = self.key.get_wireguard_private_key()
+        return create_wireguard_config(
+            associated_ip=self.key.associated_ip,
+            private_key=private_key,
+        )
+
+    def get_wireguard_config_file(self) -> io.StringIO:
+        """Get an actual WireGuard key from Vault server."""
+        config_file = self.get_wireguard_config()
+        return io.StringIO(config_file)
