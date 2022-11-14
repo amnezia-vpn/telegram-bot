@@ -13,8 +13,10 @@ def get_unassociated_ips():
     associated_ips = Key.objects.filter(associated_ip__isnull=False).values_list(
         "associated_ip", flat=True
     )
+    # Exclude 10.112.0.0
+    ip_network = list(WIREGUARD_IP_NETWORK)[1:]
     return collections.deque(
-        sorted([ip for ip in WIREGUARD_IP_NETWORK if str(ip) not in associated_ips])
+        sorted([ip for ip in ip_network if str(ip) not in associated_ips])
     )
 
 
