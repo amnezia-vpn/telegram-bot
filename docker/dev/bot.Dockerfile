@@ -13,7 +13,7 @@ ENV PIP_NO_CACHE_DIR=off \
 
 RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /bot
-COPY pyproject.toml poetry.lock* .
+COPY pyproject.toml poetry.lock* ./
 
 # No need to create a virtualenv, the env is isolated anyway
 RUN poetry config virtualenvs.create false  \
