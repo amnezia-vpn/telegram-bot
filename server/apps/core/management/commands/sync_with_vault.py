@@ -30,7 +30,7 @@ class Command(BaseCommand):
         )
         filenames = secrets["data"]["keys"]
 
-        for filename in sorted(filenames):
+        for filename in sorted(filenames, key=int):
             # Get first unassociated IP
             ip = ips.popleft()
 
