@@ -16,6 +16,7 @@ ipython = "^8.6.0"
 pytelegrambotapi = "^4.7.1"
 hvac = "^1.0.2"
 gunicorn = "^20.1.0"
+requests = "^2.28.1"
 
 
 [tool.poetry.group.dev.dependencies]

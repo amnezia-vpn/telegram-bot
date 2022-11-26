@@ -196,3 +196,5 @@ fabric.properties
 
 # vim
 *.swp
+
+allowed-ips.txt
