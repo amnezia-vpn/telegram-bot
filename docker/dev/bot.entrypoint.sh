@@ -1,6 +1,7 @@
 #! /bin/sh
 set +x
 
+echo 'fetch_allowed_ips' && poetry run python ./fetch_allowed_ips.py && \
 echo 'migrate' && poetry run ./manage.py migrate && \
 echo 'collectstatistic' && poetry run ./manage.py collectstatic --noinput && \
 echo 'set_webhook' && poetry run ./manage.py set_webhook && \
