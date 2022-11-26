@@ -22,7 +22,7 @@ PrivateKey = {private_key}
 [Peer]
 PublicKey = {server_pub_key}
 PresharedKey = {preshared_key}
-AllowedIPs = {allowed_ips},
+AllowedIPs = {allowed_ips}
 Endpoint = {wireguard_server_ip}:{wireguard_server_port}
 PersistentKeepalive = 25
 """
