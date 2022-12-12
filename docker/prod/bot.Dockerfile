@@ -21,7 +21,7 @@ RUN poetry config virtualenvs.create false  \
 
 COPY . .
 
-ENTRYPOINT docker/dev/bot.entrypoint.sh
+ENTRYPOINT docker/prod/bot.entrypoint.sh
 
 ENV BOT_LISTEN_ADDR=0.0.0.0
 ENV BOT_LISTEN_PORT=8000
