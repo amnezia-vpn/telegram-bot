@@ -1,3 +1,8 @@
+docker-compose.*
+.dockerignore
+.git*
+
+# .gitignore
 #### macos ####
 *.DS_Store
 .AppleDouble
@@ -196,5 +201,3 @@ fabric.properties
 
 # vim
 *.swp
-
-allowed-ips.txt

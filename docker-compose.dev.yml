@@ -1,0 +1,69 @@
+---
+services:
+  vault:
+    # image: vault:1.11.0
+    build:
+      context: .
+      dockerfile: ./docker/dev/vault.Dockerfile
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - 8200:8200/tcp
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_ROOT_TOKEN-mysecretvaultroottoken}
+      - VAULT_DEV_APP_TOKEN_ID=${VAULT_TOKEN-mysecretvaultbottoken}
+      - VAULT_WG_KEYS_COUNT=${VAULT_WG_KEYS_COUNT-10}
+    healthcheck:
+      test: "env VAULT_TOKEN=${VAULT_TOKEN-mysecretvaultbottoken} VAULT_ADDR=http://localhost:8200/ vault kv list vpn"
+  db:
+    hostname: db
+    image: postgres:13
+    ports:
+      - 5432:5432/tcp
+    environment:
+      - POSTGRES_DB=${DB_NAME-amnru}
+      - POSTGRES_USER=${DB_USER-user}
+      - POSTGRES_PASSWORD=${DB_PASSWORD-password}
+    volumes:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: "pg_isready -q -U postgres"
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080/tcp
+    links:
+      - db
+    profiles:
+      - adminer
+  bot:
+    hostname: bot
+    build:
+      context: .
+      dockerfile: ./docker/dev/bot.Dockerfile
+    ports:
+      - 8000:8000/tcp
+    links:
+      - db
+      - vault
+    depends_on:
+      db:
+        condition: service_healthy
+      vault:
+        condition: service_healthy
+    environment:
+      - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DB_NAME=${DB_NAME-amnru}
+      - DB_USER=${DB_USER-user}
+      - DB_PASSWORD=${DB_PASSWORD-password}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_WEBHOOK_URI=${TELEGRAM_WEBHOOK_URI}
+      - VAULT_ADDR=http://vault:8200/
+      - VAULT_TOKEN=${VAULT_TOKEN-mysecretvaultbottoken}
+      - WIREGUARD_SERVER_IP=${WIREGUARD_SERVER_IP}
+      - WIREGUARD_SERVER_PORT=${WIREGUARD_SERVER_PORT}
+      - WIREGUARD_PSK=${WIREGUARD_PSK}
+      - WIREGUARD_SERVER_PUB_KEY=${WIREGUARD_SERVER_PUB_KEY}
+      - WIREGUARD_IP_NETWORK=${WIREGUARD_IP_NETWORK}
